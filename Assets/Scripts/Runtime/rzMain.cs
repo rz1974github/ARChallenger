@@ -44,6 +44,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
         public Camera MainCamera;
         public GameObject UpRegion;
         public GameObject gameScene;
+        public GameObject pinchZoomer;
+        public GameObject swipeRotator;
 
         partType turnIndex = partType.PT_Pillow1;
 
@@ -194,6 +196,9 @@ namespace UnityEngine.XR.ARFoundation.Samples
             rankButton.SetActive(true);
 
             timeText.text = floatTimeToString(timer);
+
+            pinchZoomer.transform.localPosition = Vector3.zero;
+            swipeRotator.transform.localRotation = Quaternion.identity;
         }
 
         void resetModels()
@@ -452,6 +457,9 @@ namespace UnityEngine.XR.ARFoundation.Samples
             clockSet.SetActive(true);
             partsSelection.SetActive(true);
             //Selectable.bRotating = true;
+
+            pinchZoomer.transform.localPosition = Vector3.zero;
+            swipeRotator.transform.localRotation = Quaternion.identity;
         }
 
         public void whenSucceedFinished()
