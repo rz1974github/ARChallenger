@@ -45,7 +45,9 @@ namespace UnityEngine.XR.ARFoundation.Samples
         public GameObject UpRegion;
         public GameObject gameScene;
         public GameObject pinchZoomer;
+        public GameObject swipeMover;
         public GameObject swipeRotator;
+        public GameObject example;
 
         partType turnIndex = partType.PT_Pillow1;
 
@@ -68,20 +70,25 @@ namespace UnityEngine.XR.ARFoundation.Samples
             m_TrackedImageManager.trackedImagesChanged -= OnChanged;
         }
 
+        void SyncToImage(ARTrackedImage image)
+        {
+            gameScene.transform.position = image.transform.position;
+            gameScene.transform.rotation = image.transform.rotation;
+            gameScene.transform.Rotate(Vector3.right, 90.0f,Space.Self);
+        }
+
         void OnChanged(ARTrackedImagesChangedEventArgs eventArgs)
         {
             foreach (var newImage in eventArgs.added)
             {
                 // Handle added event
-                gameScene.transform.position = newImage.transform.position;
-                gameScene.transform.rotation = newImage.transform.rotation;
+                SyncToImage(newImage);
             }
 
             foreach (var updatedImage in eventArgs.updated)
             {
                 // Handle updated event
-                gameScene.transform.position = updatedImage.transform.position;
-                gameScene.transform.rotation = updatedImage.transform.rotation;
+                SyncToImage(updatedImage);
             }
 
             foreach (var removedImage in eventArgs.removed)
@@ -189,6 +196,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             rankPanel.SetActive(false);
             correctBox.gameObject.SetActive(false);
             partsSelection.SetActive(false);
+            example.SetActive(false);
 
             //show
             resetButton.SetActive(true);
@@ -198,6 +206,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             timeText.text = floatTimeToString(timer);
 
             pinchZoomer.transform.localPosition = Vector3.zero;
+            swipeMover.transform.localPosition = Vector3.zero;
             swipeRotator.transform.localRotation = Quaternion.identity;
         }
 
@@ -456,9 +465,11 @@ namespace UnityEngine.XR.ARFoundation.Samples
             resetButton.SetActive(true);
             clockSet.SetActive(true);
             partsSelection.SetActive(true);
+            example.SetActive(true);
             //Selectable.bRotating = true;
 
             pinchZoomer.transform.localPosition = Vector3.zero;
+            swipeMover.transform.localPosition = Vector3.zero;
             swipeRotator.transform.localRotation = Quaternion.identity;
         }
 
